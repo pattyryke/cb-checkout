@@ -1,13 +1,9 @@
 import React from 'react';
-import CheckOutChromebookByAssetTagForm from '../elements/forms/snipe-it/CheckOutChromebookByAssetTagForm';
-
+import CheckOutFormElement from '../elements/MaterialUI/elements/forms/form-checkout';
 
 export default function CheckOut() {
+
 	return (
-		<div id="checkout-container">
-			<div className="row-container">
-				<CheckOutChromebookByAssetTagForm />
-			</div>
-		</div>
+		<CheckOutFormElement title={"Chromebook Check-out:"} />
 	);
 }

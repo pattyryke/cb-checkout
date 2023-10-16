@@ -1,13 +1,10 @@
 import React from 'react';
-import CheckInChromebookByAssetTagForm from '../elements/forms/snipe-it/CheckInChromebookByAssetTagForm';
+import CheckInFormElement from '../elements/MaterialUI/elements/forms/form-checkin';
 
 
 export default function CheckIn() {
+
 	return (
-		<div id="checkin-container">
-			<div className="row-container">
-				<CheckInChromebookByAssetTagForm />
-			</div>
-		</div>
+		<CheckInFormElement title={'Chromebook Check-in:'} />
 	);
 }

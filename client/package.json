@@ -2,21 +2,29 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3000/",
+  "proxy": "http://localhost:3001",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "html-webpack-plugin": "^5.5.3",
+    "nodemon": "^3.0.1",
     "react-scripts": "^5.0.1"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.5",
     "axios": "^1.4.0",
+    "buffer": "^6.0.3",
+    "google-auth-library": "^9.1.0",
+    "googleapis": "^127.0.0",
+    "googleapis-common": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.44.3",
+    "react-hook-form": "^7.45.4",
     "react-router-dom": "^6.12.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   },

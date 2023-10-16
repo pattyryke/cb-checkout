@@ -1,26 +1,51 @@
-import React from 'react';
-import Layout from './elements/Layout';
+import React, { useState, useEffect } from 'react';
 import RoutesElement from './elements/Routes';
-import LockCheckButton from './elements/LockCheckButton';
-import Login from './elements/google/login/Login';
+import NavBar from './elements/MaterialUI/elements/navigation-bar/NavBar';
+import { Container } from '@mui/material';
+import TitleBar from './elements/MaterialUI/elements/title-bar/TitleBar';
 
 export function App() {
+  const [userData, setUserData] = useState(null);
 
-  return (
-    <div className="App">
-      <div id='top-bar'>
-        <Login />
-        <LockCheckButton />
-        <div className='row-container'>
-          <h1 id='title'>
-            Patrick's Check-in/Check-out Website
-          </h1>
-          <RoutesElement />
-          <Layout />
-        </div>
-      </div>
-    </div>
-  );
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userDataParam = urlParams.get('user');
+    if (userDataParam) {
+      const parsedUserData = JSON.parse(decodeURIComponent(userDataParam));
+      setUserData(parsedUserData);
+    }
+  }, []);
+
+	return (
+		<Container 
+      maxWidth="xl"
+    >
+      <TitleBar />
+			<NavBar userData={userData}/>
+
+			<Container 
+        id="main-container"
+        maxWidth="xl"
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+				<Container 
+          id="content-container"
+          maxWidth="lg"
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+
+					<RoutesElement />
+				
+        </Container>
+			</Container>
+		</Container>
+	);
 }
 
 export default App;
