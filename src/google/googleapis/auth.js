@@ -1,7 +1,7 @@
 const { google } = require('googleapis');
-const { clientCommands } = require('../../../sessions/redisClient');
-const { getUserInfo } = require('../people/people');
-const User = require('../../../assets/User');
+const { clientCommands } = require('../../redis/redisClient');
+const { getUserInfo } = require('./people');
+const User = require('../../assets/classes/User');
 require('dotenv').config();
 
 // Environmental variables
@@ -16,8 +16,6 @@ google.options({ auth: oauth2Client });
 
 // Defining scopes
 const scopes = ['email', 'profile', 'openid', 'https://www.googleapis.com/auth/admin.directory.device.chromeos', 'https://www.googleapis.com/auth/user.emails.read', 'https://www.googleapis.com/auth/userinfo.profile'];
-
-
 
 // OAuth2 URL creation
 const getAuthURL = () => {
@@ -59,17 +57,7 @@ const authCheck = async () => {
 const createUserObj = async (tokens) => {
 	try {
 		const userData = await getUserInfo(tokens.access_token);
-		const user = new User(
-			userData.names[0].metadata.source.id,
-			userData.names[0].displayName,
-			userData.emailAddresses[0].value,
-			tokens.id_token,
-			tokens.access_token,
-			tokens.refresh_token,
-			tokens.expiry_date,
-			tokens.token_type,
-			tokens.scope
-		);
+		const user = new User(userData.names[0].metadata.source.id, userData.names[0].displayName, userData.emailAddresses[0].value, tokens.id_token, tokens.access_token, tokens.refresh_token, tokens.expiry_date, tokens.token_type, tokens.scope);
 
 		return user;
 	} catch (error) {

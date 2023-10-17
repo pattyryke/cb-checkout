@@ -1,45 +1,15 @@
 import axios from 'axios';
 
-import FormCheckOut from '../../../forms/FormCheckOut';
 
-/**
- *  Form handlers
- */
-const handleGetNameForm = async (result) => {
-	const name = await getName(result);
-	console.log(result);
-	console.log(name);
-};
-const handleCheckInForm = (result) => {
-	console.log(result);
-};
-const handleCheckOutForm = (result) => {
-	FormCheckOut(result);
-};
 
 /**
  *  Functions
  */
-
-// Function to add check out data to mySQL database
-const adjustSQL = async (tag, date) => {
-	const data = {
-		cb_asset_tag: tag,
-		date_checkin: date,
-	};
-	const config = { headers: { 'Content-Type': 'application/json' } };
-	const url = 'http://localhost:3000/sql/adjust-database';
-
-	await axios.post(url, data, config).catch((err) => {
-		console.error(`Error adjusting mySQL database: ${err}`);
-	});
-};
-
 const getChromebook = async (tag) => {
 	try {
 		const options = {
 			method: 'GET',
-			url: `http://localhost:3000/chromebook/${tag}`,
+			url: `http://localhost:3000/snipeit/chromebook/${tag}`,
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
@@ -52,17 +22,17 @@ const getChromebook = async (tag) => {
 	}
 };
 
-const getUser = async (studentID) => {
+const getUser = async (studentId) => {
     try {
         const options = {
 			method: 'GET',
-			url: `http://localhost:3000/snipe-it/user/${studentID}`,
+			url: `http://localhost:3000/snipeit/user`,
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
 			params: {
-                id: studentID,
+                studentId: studentId,
             },
 		};
 		const response = await axios.request(options);
@@ -74,25 +44,15 @@ const getUser = async (studentID) => {
     }
 };
 
-const POSTToSQL = async () => {
-	const url = 'http://localhost:3000/sql/add-to-database';
-	const config = { headers: { 'Content-Type': 'application/json' } };
-	const data = {
-		obj: infoObj,
-	};
-	await axios.post(url, data, config).catch((err) => {
-		console.log(`Error in addToDatabase: ${err}`);
-	});
-};
 
-const checkOutOnSnipeIT = async (studentID, userID, assetTag, CBInfo) => {
+const checkOutOnSnipeIT = async (studentId, userID, assetTag, CBInfo) => {
 	try {
 		const access_token = process.env.REACT_APP_SNIPEIT_ACCESS_TOKEN;
 		const chromebookID = CBInfo.id;
 		const chromebookStatusID = CBInfo.status_label.id;
 
 		const requestData = {
-			stuID: studentID,
+			stuID: studentId,
 			statusID: chromebookStatusID,
 			cbID: chromebookID,
 			userID: userID,
@@ -100,13 +60,16 @@ const checkOutOnSnipeIT = async (studentID, userID, assetTag, CBInfo) => {
 
 		const options = {
 			method: 'POST',
-			url: `http://localhost:3000/chromebook/check-out/${assetTag}/${studentID}`,
+			url: `http://localhost:3000/snipeit/check-out`,
 			headers: {
 				Accept: 'application/json',
 				Authorization: `Bearer ${access_token}`,
 				'Content-Type': 'application/json',
 			},
-			data: JSON.stringify(requestData),
+			params: {
+				assetTag: assetTag,
+				studentId: studentId
+			}
 		};
 		const response = await axios.request(options);
 		if (response.data) {
@@ -129,7 +92,7 @@ const CheckIn = async (chromebook) => {
 		};
 		const options = {
 			method: 'POST',
-			url: `http://localhost:3000/chromebook/check-in`,
+			url: `http://localhost:3000/snipeit/check-in`,
 			headers: {
 				Accept: 'application/json',
 				Authorization: `Bearer ${access_token}`,
@@ -146,4 +109,4 @@ const CheckIn = async (chromebook) => {
 	}
 };
 
-export { getChromebook, getUser, checkOutOnSnipeIT, CheckIn, POSTToSQL, adjustSQL, handleCheckInForm, handleCheckOutForm, handleGetNameForm };
+export { getChromebook, getUser, checkOutOnSnipeIT, CheckIn };

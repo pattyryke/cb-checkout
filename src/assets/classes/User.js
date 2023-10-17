@@ -1,19 +1,17 @@
-const { clientCommands } = require('../sessions/redisClient');
-
-
+const { clientCommands } = require('../../redis/redisClient');
 
 class User {
 	/**
-	 * 
-	 * @param {string} id 
-	 * @param {string} displayName 
-	 * @param {string} email 
-	 * @param {string} idToken 
-	 * @param {string} accessToken 
-	 * @param {string} refreshToken 
-	 * @param {string} expiryDate 
-	 * @param {string} tokenType 
-	 * @param {string} scope 
+	 *
+	 * @param {string} id
+	 * @param {string} displayName
+	 * @param {string} email
+	 * @param {string} idToken
+	 * @param {string} accessToken
+	 * @param {string} refreshToken
+	 * @param {string} expiryDate
+	 * @param {string} tokenType
+	 * @param {string} scope
 	 */
 	constructor(id, displayName, email, idToken, accessToken, refreshToken, expiryDate, tokenType, scope) {
 		this.id = id;
@@ -47,7 +45,7 @@ class User {
 				token_type: currentUser.tokenType,
 				id_token: currentUser.idToken,
 				scope: currentUser.scope,
-			}
+			};
 			return creds;
 		} catch (error) {
 			console.error(error);

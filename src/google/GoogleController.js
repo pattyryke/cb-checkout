@@ -9,20 +9,20 @@ const customer_id = process.env.REACT_APP_CUSTOMER_ID;
 
 
 
-async function getChromebookID(serial_num) {
-    try {
-        const response = admin.chromeosdevices.list({
-            customerId: customer_id,
-            param: {
-                serialNumber: serial_num,
-            }
-        });
-        console.log(JSON.stringify(response));
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
+// async function getChromebookID(serial_num) {
+//     try {
+//         const response = admin.chromeosdevices.list({
+//             customerId: customer_id,
+//             param: {
+//                 serialNumber: serial_num,
+//             }
+//         });
+//         console.log(JSON.stringify(response));
+//     } catch (error) {
+//         console.error(error);
+//         throw error;
+//     }
+// }
 
 async function lockChromebook(serial_num) {
     const customer_id = process.env.REACT_APP_CUSTOMER_ID;
@@ -44,6 +44,5 @@ async function lockChromebook(serial_num) {
 }
 
 module.exports = {
-    getChromebookID,
     lockChromebook,
 };

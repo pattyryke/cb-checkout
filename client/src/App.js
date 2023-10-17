@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import RoutesElement from './elements/Routes';
-import NavBar from './elements/MaterialUI/elements/navigation-bar/NavBar';
+import NavBar from './elements/navigation-bar/NavBar';
 import { Container } from '@mui/material';
-import TitleBar from './elements/MaterialUI/elements/title-bar/TitleBar';
+import TitleBar from './elements/title-bar/TitleBar';
 
 export function App() {
   const [userData, setUserData] = useState(null);

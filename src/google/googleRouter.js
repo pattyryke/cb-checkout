@@ -1,6 +1,6 @@
 const controller = require('./GoogleController.js');
-const admin = require('./googleapis/admin/admin.js');
-const { authCheck, getAuthTokens, getAuthURL } = require('./googleapis/auth/auth.js');
+const admin = require('./googleapis/admin.js');
+const { authCheck, getAuthTokens, getAuthURL } = require('./googleapis/auth.js');
 
 // Route middleware to ensure user is authenticated.
 const ensureAuthenticated = async (req, res, next) => {
@@ -17,12 +17,14 @@ const ensureAuthenticated = async (req, res, next) => {
 };
 
 var googleRouter = (app) => {
-	// Handle login authorization
+	
+	/**
+	 * GOOGLE AUTHENTICATION ROUTE AND CALLBACK
+	 */
 	app.get('/auth/google/login', async (req, res) => {
 		const authURL = getAuthURL();
 		res.redirect(authURL);
 	});
-
 	app.get('/auth/google/callback', async (req, res) => {
 		const code = req.query.code;
 		try {
@@ -43,14 +45,14 @@ var googleRouter = (app) => {
 			await admin.lockChromebook(deviceId);
 			console.log(`${deviceId} is now disabled.`);
 		} else {
-			console.log
+			console.log;
 		}
 		console.log(response.data);
 	});
 
 	app.get('/google/chromebooks/get-id', ensureAuthenticated, async (req, res) => {
 		const serial_num = req.query.serialNum;
-		const response = await admin.getChromebookID(serial_num);
+		const response = await admin.getChromebookInfo(serial_num);
 		res.send(response.chromeosdevices[0]);
 	});
 };

@@ -65,20 +65,6 @@ export default function NavButton() {
                     onClick={handleClose} 
                 >Check-Out
                 </MenuItem>
-
-                <MenuItem 
-                    component={Link}
-                    to="http://localhost:3001/database"
-                    onClick={handleClose} 
-                >Database
-                </MenuItem>
-
-                <MenuItem 
-                    component={Link}
-                    to="http://localhost:3001/account"
-                    onClick={handleClose} 
-                >Account
-                </MenuItem>
             </Menu>
         </Container>
     );
