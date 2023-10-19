@@ -193,7 +193,9 @@ class Device {
 		this.snipeit.status.statusMeta = data.status_label.status_meta;
 		this.snipeit.location.id = data.rtd_location.id;
 		this.snipeit.location.name = data.rtd_location.name;
-		if (data.assigned_to.id) {
+		if (!data.assigned_to) {
+            this.snipeit.isCheckedOut = false;
+        } else {
 			this.snipeit.isCheckedOut = true;
             this.snipeit.checkoutDate = data.last_checkout.datetime;
 			this.snipeit.assignedUser.snipeitId = data.assigned_to.id;

@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Button, Container } from '@mui/material';
 
-export default function LockCheckButton() {
+export default function GoogleDeviceLockButton() {
 	const getChromebooks = async () => {
 		const options = {
 			method: 'GET',

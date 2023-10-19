@@ -1,7 +1,7 @@
 import { Container, Typography } from "@mui/material";
 
 
-export default function TitleBar() {
+export default function Title() {
     const title = "Chromebook Data Management"
 
     return(

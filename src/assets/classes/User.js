@@ -6,23 +6,30 @@ class User {
 	 * @param {string} id
 	 * @param {string} displayName
 	 * @param {string} email
-	 * @param {string} idToken
-	 * @param {string} accessToken
-	 * @param {string} refreshToken
-	 * @param {string} expiryDate
-	 * @param {string} tokenType
-	 * @param {string} scope
 	 */
-	constructor(id, displayName, email, idToken, accessToken, refreshToken, expiryDate, tokenType, scope) {
+	constructor(id, displayName, email) {
 		this.id = id;
 		this.displayName = displayName;
 		this.email = email;
-		this.idToken = idToken;
-		this.accessToken = accessToken;
-		this.refreshToken = refreshToken;
-		this.expiryDate = expiryDate;
-		this.tokenType = tokenType;
-		this.scope = scope;
+		this.isAuthenticated = null;
+		this.creds = {
+			refresh_token: null,
+			expiry_date: null,
+			access_token: null,
+			token_type: null,
+			id_token: null,
+			scope: null
+		};
+	}
+
+	async setUserCreds(refreshToken, expiryDate, accessToken, tokenType, idToken, scope) {
+		this.isAuthenticated = true;
+		this.creds.refresh_token = refreshToken;
+		this.creds.expiry_date = expiryDate;
+		this.creds.access_token = accessToken;
+		this.creds.token_type = tokenType;
+		this.creds.id_token = idToken;
+		this.creds.scope = scope;
 	}
 
 	static async getUser() {

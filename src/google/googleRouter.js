@@ -36,6 +36,8 @@ var googleRouter = (app) => {
 		}
 	});
 
+	
+
 	// app.get('/google/lock', google.requestAuth);
 	app.get('/google/chromebooks/lock', ensureAuthenticated, async (req, res) => {
 		const deviceId = req.query.deviceId;

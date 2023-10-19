@@ -1,13 +1,13 @@
 // Home.jsx
 import React from 'react';
-import StudentIDToName from '../elements/forms/form-id-to-name';
+import GetNameForm from '../components/forms/GetNameForm';
 
 export default function Home() {
-	return (
-		<div id="homepage-container">
-			<div className="row-container">
-				<StudentIDToName />
-			</div>
-		</div>
-	);
+  return (
+    <div id='homepage-container'>
+      <div className='row-container'>
+        <GetNameForm />
+      </div>
+    </div>
+  );
 }

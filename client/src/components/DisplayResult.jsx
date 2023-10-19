@@ -1,10 +1,10 @@
 import React from "react";
 
 
-export default function ResultElement({content}) {
+export default function DisplayResult({result}) {
     return (
         <h1 id="result-element">
-            {content}
+            {result}
         </h1>
     );
 }

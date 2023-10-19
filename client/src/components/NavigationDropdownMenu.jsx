@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Container, Button, Menu, MenuItem } from "@mui/material";
 
 
-export default function NavButton() {
+export default function NavigationDropdownMenu() {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     

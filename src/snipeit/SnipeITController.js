@@ -12,26 +12,25 @@ const getChromebook = async (req, res) => {
 		await device.initializeDevice();
 		res.status(200).send(device);
 	} catch (error) {
-		res.status(400).error(error);
+		res.status(400).send(error);
 		throw error;
 	}
 };
 const checkIn = async (req, res) => {
 	const assetTag = req.query.assetTag;
+	console.log(assetTag);
 	try {
 		const device = new Device(assetTag);
 		await device.initializeDevice();
 		if (device.isCheckedOut()) {
-			const confirmation = confirm(`Would you like to check in ${device.assetTag} from ${device.snipeit.assignedUser.studentName} (${device.snipeit.assignedUser.studentId})?`);
-			if (confirmation) {
-				await device.checkin();
-				res.status(400).send(`The device has been checked in.`);
-			} else {
-				res.status(304).send(`Device has not been updated.`);
-			}
+			await device.checkin();
+			res.status(200).send(`The device has been checked in.`);
+		} else {
+			res.status(302).send(`The device is unchanged.`);
 		}
 	} catch (error) {
-		res.status(200).error(error);
+		res.status(400).send(error);
+		throw error;
 	}
 };
 const checkOut = async (req, res) => {
@@ -41,16 +40,13 @@ const checkOut = async (req, res) => {
 		const device = new Device(assetTag);
 		await device.initializeDevice();
 		if (device.isCheckedOut()) {
-			const confirmation = confirm(`The device is already checked out to ${device.snipeit.assignedUser.studentName} (${device.snipeit.assignedUser.studentId}). Would you like to proceed anyways?`);
-			if (confirmation) {
-				await device.overrideCheckout(studentId);
-				res.status(200).send(`Device is now checked out to ${device.snipeit.assignedUser.studentName} (${device.snipeit.assignedUser.studentId}).`);
-			} else {
-				res.status(304).send(`Device has not been updated.`);
-			}
+			await device.overrideCheckout(studentId);
+			res.status(200).send(`Device is now checked out to ${device.snipeit.assignedUser.studentName} (${device.snipeit.assignedUser.studentId}).`);
+		} else {
+			res.status(304).send(`Device has not been updated.`);
 		}
 	} catch (error) {
-		res.status(200).error(error);
+		res.status(400).send(error);
 	}
 };
 const getDailys = async (req, res) => {
@@ -74,7 +70,7 @@ const getDailys = async (req, res) => {
 		const deviceArray = await Promise.all(dailysPromises);
 		res.send(deviceArray);
 	} catch (error) {
-		res.status(400).error(error);
+		res.status(400).send(error);
 		throw error;
 	}
 };

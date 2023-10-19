@@ -1,6 +1,6 @@
 import React from 'react';
-import CheckOutFormElement from '../elements/forms/form-checkout';
+import CheckOutForm from '../components/forms/CheckOutForm';
 
 export default function CheckOut() {
-	return <CheckOutFormElement title={'Chromebook Check-out:'} />;
+  return <CheckOutForm title={'Chromebook Check-out:'} />;
 }

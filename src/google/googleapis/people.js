@@ -4,8 +4,8 @@ const people = google.people('v1');
 
 
 
-const getUserInfo = (access_token) => {
-	return new Promise((resolve, reject) => {
+const getUserInfo = () => {
+	return new Promise(async (resolve, reject) => {
 		people.people.get(
 			{
 				resourceName: 'people/me',

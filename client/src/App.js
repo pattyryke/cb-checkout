@@ -1,51 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import RoutesElement from './elements/Routes';
-import NavBar from './elements/navigation-bar/NavBar';
+import RoutesElement from './hooks/Routes';
 import { Container } from '@mui/material';
-import TitleBar from './elements/title-bar/TitleBar';
+import axios from 'axios';
+import NavigationBar from './components/NavigationBar';
+import Title from './components/Title';
 
 export function App() {
-  const [userData, setUserData] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const checkUser = async () => {
+    const options = {
+      method: 'GET',
+      url: 'http://localhost:3000/google/check/user',
+    };
+    try {
+      const response = await axios.request(options);
+      console.log(response.data);
+      setIsLoggedIn(response.data);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const userDataParam = urlParams.get('user');
-    if (userDataParam) {
-      const parsedUserData = JSON.parse(decodeURIComponent(userDataParam));
-      setUserData(parsedUserData);
-    }
+    checkUser();
   }, []);
 
-	return (
-		<Container 
-      maxWidth="xl"
-    >
-      <TitleBar />
-			<NavBar userData={userData}/>
+  return (
+    <Container maxWidth='xl'>
+      <Title />
+      <NavigationBar isLoggedIn={isLoggedIn} />
 
-			<Container 
-        id="main-container"
-        maxWidth="xl"
+      <Container
+        id='main-container'
+        maxWidth='xl'
         sx={{
           display: 'flex',
           justifyContent: 'center',
-        }}
-      >
-				<Container 
-          id="content-container"
-          maxWidth="lg"
+        }}>
+        <Container
+          id='content-container'
+          maxWidth='lg'
           sx={{
             display: 'flex',
             justifyContent: 'center',
-          }}
-        >
-
-					<RoutesElement />
-				
+          }}>
+          <RoutesElement />
         </Container>
-			</Container>
-		</Container>
-	);
+      </Container>
+    </Container>
+  );
 }
 
 export default App;

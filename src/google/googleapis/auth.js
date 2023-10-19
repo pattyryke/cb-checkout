@@ -1,5 +1,6 @@
 const { google } = require('googleapis');
 const { clientCommands } = require('../../redis/redisClient');
+const { setGoogleUser, getGoogleUser } = require('../../redis/RedisController');
 const { getUserInfo } = require('./people');
 const User = require('../../assets/classes/User');
 require('dotenv').config();
@@ -57,7 +58,16 @@ const authCheck = async () => {
 const createUserObj = async (tokens) => {
 	try {
 		const userData = await getUserInfo(tokens.access_token);
-		const user = new User(userData.names[0].metadata.source.id, userData.names[0].displayName, userData.emailAddresses[0].value, tokens.id_token, tokens.access_token, tokens.refresh_token, tokens.expiry_date, tokens.token_type, tokens.scope);
+		const user = new User(userData.names[0].metadata.source.id, userData.names[0].displayName, userData.emailAddresses[0].value);
+		await user.setUserCreds(
+			tokens.refresh_token, 
+			tokens.expiry_date, 
+			tokens.access_token, 
+			tokens.token_type, 
+			tokens.id_token, 
+			tokens.scope
+		);
+		console.log(user);
 
 		return user;
 	} catch (error) {
@@ -69,6 +79,7 @@ const createUserObj = async (tokens) => {
 oauth2Client.on('tokens', async (tokens) => {
 	try {
 		if (tokens.access_token) {
+			console.log('oauth2Client.on(tokens):');
 			oauth2Client.setCredentials({
 				refresh_token: tokens.refresh_token,
 				expiry_date: tokens.expiry_date,
@@ -79,7 +90,7 @@ oauth2Client.on('tokens', async (tokens) => {
 			});
 			console.log('Credentials are set!');
 			const user = await createUserObj(tokens);
-			await clientCommands.set('currentUser', user);
+			await setGoogleUser(user);
 		}
 	} catch (error) {
 		console.error(error);

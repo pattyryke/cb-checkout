@@ -1,6 +1,6 @@
 import React from 'react';
-import CheckInFormElement from '../elements/forms/form-checkin';
+import CheckInForm from '../components/forms/CheckInForm';
 
 export default function CheckIn() {
-	return <CheckInFormElement title={'Chromebook Check-in:'} />;
+  return <CheckInForm title={'Chromebook Check-in:'} />;
 }

@@ -11,6 +11,7 @@ const googleRouter = require('./src/google/GoogleRouter.js');
 const redisController = require('./src/redis/redisClient.js');
 const { createDevice } = require('./src/assets/functions/createDevice.js');
 const snipeitRouter = require('./src/snipeit/SnipeITRouter.js');
+const redisRouter = require('./src/redis/RedisRouter.js');
 require('dotenv').config();
 
 const port = process.env.REACT_APP_PORT || 3000;
@@ -32,18 +33,18 @@ app.use(flash());
  * REDIS CONFIG
  */
 app.use(
-	session({
-		store: new RedisStore({ client: redisController.client }),
-		secret: 'secret',
-		saveUninitialized: false,
-		resave: false,
-		cookie: {
-			secure: false,
-			httpOnly: true,
-			sameSite: true,
-			maxAge: 1000 * 60 * 10,
-		},
-	})
+  session({
+    store: new RedisStore({ client: redisController.client }),
+    secret: 'secret',
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      secure: false,
+      httpOnly: true,
+      sameSite: true,
+      maxAge: 1000 * 60 * 10,
+    },
+  })
 );
 
 // Redis connection initialization
@@ -55,22 +56,25 @@ snipeitRouter(app);
 // Google
 googleRouter(app);
 
+// Redis
+redisRouter(app);
+
 // Client-side
 app.get('/', (req, res) => {
-	console.log(JSON.stringify(req));
-	res.sendFile(join(__dirname + '/client/build/index.html'));
+  console.log(JSON.stringify(req));
+  res.sendFile(join(__dirname + '/client/build/index.html'));
 });
 app.get('/create-device', async (req, res) => {
-	try {
-		const assetTag = req.query.tag;
-		const device = await createDevice(assetTag);
-		res.status(200).send(device);
-	} catch (error) {
-		console.error(error);
-		res.status(400).json('ERROR IN ROUTE /create-device');
-	}
+  try {
+    const assetTag = req.query.tag;
+    const device = await createDevice(assetTag);
+    res.status(200).send(device);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json('ERROR IN ROUTE /create-device');
+  }
 });
 
 app.listen(port, () => {
-	console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
